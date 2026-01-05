@@ -1,0 +1,24 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Windows"
+             x:Class="Windows.App"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        <StyleInclude Source="Styles/ButtonStyle.axaml"></StyleInclude>
+    </Application.Styles>
+
+    <Application.Resources>
+        <SolidColorBrush x:Key="PrimaryBackground">#A1BC98</SolidColorBrush>
+        <LinearGradientBrush x:Key="PrimaryBackgroundGradient" StartPoint="0%,0%" EndPoint="100%,100%"> 
+            <GradientStop Color="#F1F3E0" Offset="0"/> 
+            <GradientStop Color="#D2DCB6" Offset="1"/> 
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ButtonBackground">#0A400C</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonHoverBackground">#778873</SolidColorBrush>
+        <local:ExpiredDateToBrushConverter x:Key="ExpiredDateBrush"/>
+    </Application.Resources>
+</Application>

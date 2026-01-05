@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+	<AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.9" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.9" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.9" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.9">
+      <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+      <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Class\Class.csproj" />
+    <ProjectReference Include="..\DataAccess&amp;System\DataAccess_System.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\ChonIP.axaml.cs">
+      <DependentUpon>ChonIP.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\YesNo.axaml.cs">
+      <DependentUpon>YesNo.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ThongBao.axaml.cs">
+      <DependentUpon>ThongBao.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\MainMenu.axaml.cs">
+      <DependentUpon>MainMenu.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\MenuPanel.axaml.cs">
+      <DependentUpon>MenuPanel.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\HoanTraThuoc.axaml.cs">
+      <DependentUpon>HoanTraThuoc.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\PhieuDuTru.axaml.cs">
+      <DependentUpon>PhieuDuTru.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\QLDanhMucLoThuoc.axaml.cs">
+      <DependentUpon>QLDanhMucLoThuoc.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\ThanhLyThuoc.axaml.cs">
+      <DependentUpon>ThanhLyThuoc.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\PhieuKiemKe.axaml.cs">
+      <DependentUpon>PhieuKiemKe.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\XuatThuoc.axaml.cs">
+      <DependentUpon>XuatThuoc.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\NhapThuocNhaCC.axaml.cs">
+      <DependentUpon>NhapThuocNhaCC.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\QLDanhMucDangNhap.axaml.cs">
+      <DependentUpon>QLDanhMucDangNhap.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\NhapThuoc.axaml.cs">
+      <DependentUpon>NhapThuoc.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\QLDanhMucKho.axaml.cs">
+      <DependentUpon>QLDanhMucKho.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\QLDanhMucThuoc.axaml.cs">
+      <DependentUpon>QLDanhMucThuoc.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>
