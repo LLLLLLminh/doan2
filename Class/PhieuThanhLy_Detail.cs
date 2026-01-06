@@ -14,7 +14,7 @@ namespace Class
         {
             set
             {
-                LoThuoc_ID = value.ID;
+                LoThuoc_ID = value.Id;
             }
         }
         private string SP_Name = "sp_PhieuThanhLy_Detail";

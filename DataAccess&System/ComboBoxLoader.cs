@@ -26,7 +26,7 @@ namespace DataAccess_System
             if (cbo.SelectedItem is ComboItem)
             {
                 ComboItem selectedItem = (ComboItem)cbo.SelectedItem;
-                return selectedItem.ID;
+                return selectedItem.Id;
             }
             return -1;
         }
@@ -35,7 +35,7 @@ namespace DataAccess_System
             ComboItem selectedItem;
             foreach (ComboItem item in comboItems)
             {
-                if (item.ID == ID)
+                if (item.Id == ID)
                 {
                     selectedItem = item;
                     cbo.SelectedItem = selectedItem;

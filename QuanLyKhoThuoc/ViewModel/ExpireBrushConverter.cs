@@ -3,7 +3,7 @@ using Avalonia.Media;
 using System;
 using System.Globalization;
 
-namespace Windows
+namespace Windows.ViewModel
 {
     public class ExpiredDateToBrushConverter : IValueConverter
     {

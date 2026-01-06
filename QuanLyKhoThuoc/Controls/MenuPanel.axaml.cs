@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
 using System;
+using Windows.ViewModel;
 
 namespace Windows.Controls;
 

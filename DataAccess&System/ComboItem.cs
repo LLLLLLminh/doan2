@@ -8,11 +8,14 @@ namespace DataAccess_System
 {
     public class ComboItem
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string? Name { get; set; }
-        public ComboItem(int id, string name)
+        public override string ToString() => Name;
+
+        public ComboItem() { }
+        public ComboItem(int id, string? name)
         {
-            ID = id;
+            Id = id;
             Name = name;
         }
     }

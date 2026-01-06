@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Avalonia.Controls;
 
 
-namespace Windows;
+namespace Windows.ViewModel;
 
 public class MenuPanelViewModel : ViewModelBase
 {
