@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -21,7 +22,7 @@ namespace Windows.ViewModel
         public ObservableCollection<ComboItem> ComboBoxLoThuocItems { get; } = new();
 
         // Grid rows
-        public ObservableCollection<ThuocRowViewModel> GridRows { get; } = new();
+        public ObservableCollection<NhapThuocRowViewModel> GridRows { get; } = new();
 
         // Selected items / properties shown in view
         private ComboItem? _selectedSoPhieu;
@@ -117,6 +118,9 @@ namespace Windows.ViewModel
         private bool _isLoaiPhieu2;
         public bool IsLoaiPhieu2 { get => _isLoaiPhieu2; set { _isLoaiPhieu2 = value; OnPropertyChanged(); } }
 
+        private int _selectedTabIndex;
+        public int SelectedTabIndex { get => _selectedTabIndex; set { _selectedTabIndex = value; OnPropertyChanged(); } }
+
         // Commands
         public ICommand AddRowCommand { get; }
         public ICommand DeleteRowCommand { get; }
@@ -125,6 +129,7 @@ namespace Windows.ViewModel
         public ICommand DeleteCommand { get; }
         public ICommand ConfirmCommand { get; }
         public ICommand PrintReportCommand { get; }
+        public ICommand TabCommand { get; }
 
         public NhapThuocViewModel()
         {
@@ -148,13 +153,13 @@ namespace Windows.ViewModel
             LoadComboSoPhieu();
 
             // default row
-            GridRows.Add(new ThuocRowViewModel { LoThuocDaChon = ComboBoxLoThuocItems.FirstOrDefault(), DonGia = 0m, SoLuong = 0 });
+            GridRows.Add(new NhapThuocRowViewModel { LoThuocDaChon = ComboBoxLoThuocItems.FirstOrDefault(), DonGia = 0m, SoLuong = 0 });
 
             // commands
-            AddRowCommand = new RelayCommand(_ => GridRows.Add(new ThuocRowViewModel { LoThuocDaChon = ComboBoxLoThuocItems.FirstOrDefault(), DonGia = 0m, SoLuong = 1 }));
+            AddRowCommand = new RelayCommand(_ => GridRows.Add(new NhapThuocRowViewModel { LoThuocDaChon = ComboBoxLoThuocItems.FirstOrDefault(), DonGia = 0m, SoLuong = 1 }));
             DeleteRowCommand = new RelayCommand(param =>
             {
-                if (param is ThuocRowViewModel row && GridRows.Contains(row))
+                if (param is NhapThuocRowViewModel row && GridRows.Contains(row))
                     GridRows.Remove(row);
                 else if (GridRows.Any())
                     GridRows.RemoveAt(GridRows.Count - 1);
@@ -163,6 +168,7 @@ namespace Windows.ViewModel
             AddCommand = new RelayCommand(_ => AddNewPhieu());
             UpdateCommand = new RelayCommand(_ => UpdatePhieu(), _ => SelectedSoPhieu != null);
             DeleteCommand = new RelayCommand(_ => DeletePhieu(), _ => SelectedSoPhieu != null);
+            TabCommand = new RelayCommand(_ => Tab());
 
             ConfirmCommand = new RelayCommand(_ => ConfirmSelectedPhieu(), _ => SelectedSoPhieu != null && !IsTrangThaiConfirmed);
             PrintReportCommand = new RelayCommand(_ => PrintReport(), _ => SelectedSoPhieu != null);
@@ -212,7 +218,7 @@ namespace Windows.ViewModel
             DataTable dt = new PhieuNhap_Detail().GetByPhieu_ID(PhieuNhap_ID);
             foreach (DataRow dr in dt.Rows)
             {
-                var row = new ThuocRowViewModel
+                var row = new NhapThuocRowViewModel
                 {
                     LoThuocDaChon = ComboBoxLoThuocItems.FirstOrDefault(x => x.Id == Convert.ToInt32(dr["LoThuoc_ID"])),
                     SoLuong = Convert.ToInt32(dr["SoLuong"]),
@@ -255,11 +261,26 @@ namespace Windows.ViewModel
                 (ConfirmCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 (PrintReportCommand as RelayCommand)?.RaiseCanExecuteChanged();
             }
+            var thongBao = new ThongBao("Taọ phiếu thành công!");
+            thongBao.Show();
         }
 
         private void UpdatePhieu()
         {
             // placeholder update logic
+            if (SelectedSoPhieu == null)
+                return;
+            var phieuNhap = new PhieuNhap();
+            phieuNhap.SoPhieu = "Nhap " + DateTime.Now.ToString();
+            phieuNhap.LoaiPhieu = IsLoaiPhieu2 ? 0 : 1;
+            phieuNhap.DonViGiao_ID = SelectedDonViGiao?.Id ?? -1;
+            phieuNhap.DonViNhan_ID = SelectedDonViNhan?.Id ?? -1;
+            phieuNhap.NguoiNhan_ID = SelectedNguoiNhan?.Id ?? -1;
+            phieuNhap.DienGiai = DienGiai;
+            int newPhieuID = phieuNhap.Update(SelectedSoPhieu.Id);
+
+            var thongBao = new ThongBao("Cập nhật phiếu thành công!");
+            thongBao.Show();
         }
 
         private void DeletePhieu()
@@ -273,6 +294,8 @@ namespace Windows.ViewModel
                 LoadComboSoPhieu();
                 SelectedSoPhieu = null;
             }
+            var thongBao = new ThongBao("Xóa phiếu thành công!");
+            thongBao.Show();
         }
 
         private void ConfirmSelectedPhieu()
@@ -283,6 +306,10 @@ namespace Windows.ViewModel
         private void PrintReport()
         {
             // placeholder for printing
+        }
+        private void Tab()
+        {
+            SelectedTabIndex = (SelectedTabIndex + 1) % 2;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

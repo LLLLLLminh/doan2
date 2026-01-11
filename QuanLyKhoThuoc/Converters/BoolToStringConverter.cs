@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace QuanLyKhoThuoc.Converters
+namespace Windows.Converters
 {
     // ConverterParameter format: "TrueString;FalseString"
     public class BoolToStringConverter : IValueConverter

@@ -1,6 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Windows.ViewModel"
+             xmlns:con="clr-namespace:Windows.Converters"
              x:Class="Windows.App"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
@@ -19,6 +19,8 @@
         </LinearGradientBrush>
         <SolidColorBrush x:Key="ButtonBackground">#0A400C</SolidColorBrush>
         <SolidColorBrush x:Key="ButtonHoverBackground">#778873</SolidColorBrush>
-        <local:ExpiredDateToBrushConverter x:Key="ExpiredDateBrush"/>
+        <con:ExpiredDateToBrushConverter x:Key="ExpiredDateBrush"/>
+        <con:InverseBooleanConverter x:Key="InverseBool"/>
+        <con:BoolToStringConverter x:Key="BoolToString"/>
     </Application.Resources>
 </Application>
