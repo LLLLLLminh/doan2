@@ -68,6 +68,7 @@ namespace Windows.ViewModel
                 {
                     _selectedDonViGiao = value;
                     OnPropertyChanged();
+                    if (_selectedDonViGiao != null) UpdateDetailsFromSelectedKho();
                 }
             }
         }
@@ -144,11 +145,7 @@ namespace Windows.ViewModel
             {
                 ComboBoxKhoItems.Add(new ComboItem((int)dr["Kho_ID"], dr["TenKho"].ToString()));
             }
-            dt = ComboBoxLoader.LoadComboBox("DM_LoThuoc");
-            foreach (DataRow dr in dt.Rows)
-            {
-                ComboBoxLoThuocItems.Add(new ComboItem((int)dr["LoThuoc_ID"], dr["SoLo"].ToString()));
-            }
+            
 
             LoadComboSoPhieu();
 
@@ -172,6 +169,15 @@ namespace Windows.ViewModel
 
             ConfirmCommand = new RelayCommand(_ => ConfirmSelectedPhieu(), _ => SelectedSoPhieu != null && !IsTrangThaiConfirmed);
             PrintReportCommand = new RelayCommand(_ => PrintReport(), _ => SelectedSoPhieu != null);
+        }
+        private void UpdateDetailsFromSelectedKho()
+        {
+            ComboBoxLoThuocItems.Clear();
+            DataTable dt = ComboBoxLoader.LoadComboBox("DM_LoThuoc_TheoKho", SelectedDonViGiao.Id.ToString());
+            foreach (DataRow dr in dt.Rows)
+            {
+                ComboBoxLoThuocItems.Add(new ComboItem((int)dr["LoThuoc_ID"], dr["SoLo"].ToString(), (int)dr["SoLuongTon"], dr["TenThuoc"].ToString()));
+            }
         }
         public void LoadComboSoPhieu()
         {
@@ -202,7 +208,7 @@ namespace Windows.ViewModel
             NguoiNhan = SelectedNguoiNhan?.Name ?? phieuNhap.NguoiNhan_ID.ToString();
 
             DienGiai = phieuNhap.DienGiai ?? string.Empty;
-            IsTrangThaiConfirmed = (phieuNhap.TrangThai == 0);
+            IsTrangThaiConfirmed = (phieuNhap.TrangThai == 1);
 
             // load details using the selected SO PHIEU id (safer than depending on phieuNhap.Phieu_ID)
             LoadGrid(SelectedSoPhieu.Id);
@@ -248,7 +254,7 @@ namespace Windows.ViewModel
                         SoLuong = row.SoLuong,
                         DonGia = (int)row.DonGia
                     };
-                    detail.Add(newPhieuID);
+                    detail.Add(newPhieuID, SelectedDonViGiao?.Id ?? -1, SelectedDonViNhan?.Id ?? -1);
                 }
 
                 // refresh list and select the new item so the DataGrid and Delete command update
@@ -290,22 +296,56 @@ namespace Windows.ViewModel
                 var phieuNhap = new PhieuNhap();
                 phieuNhap.Delete(SelectedSoPhieu.Id);
                 var phieuNhapDetail = new PhieuNhap_Detail();
-                phieuNhapDetail.DeleteByPhieu_ID(SelectedSoPhieu.Id);
+                phieuNhapDetail.DeleteByPhieu_ID(SelectedSoPhieu.Id, SelectedDonViGiao?.Id ?? -1, SelectedDonViNhan?.Id ?? -1);
                 LoadComboSoPhieu();
                 SelectedSoPhieu = null;
+                var thongBao = new ThongBao("Xóa phiếu thành công!");
+                thongBao.Show();
             }
-            var thongBao = new ThongBao("Xóa phiếu thành công!");
-            thongBao.Show();
+            else
+            {
+                var thongBao = new ThongBao("Hãy chọn số phiếu!");
+                thongBao.Show();
+            }
         }
 
         private void ConfirmSelectedPhieu()
         {
-            IsTrangThaiConfirmed = true;
+            if (SelectedSoPhieu != null)
+            {
+                var phieuNhap = new PhieuNhap();
+                phieuNhap.Confirm(SelectedSoPhieu.Id);
+
+                var thongBao = new ThongBao("Xác nhận phiếu thành công!");
+                thongBao.Show();
+                IsTrangThaiConfirmed = true;
+            }
+            else 
+            {
+                var thongBao = new ThongBao("Hãy chọn số phiếu!");
+                thongBao.Show();
+            }
         }
 
-        private void PrintReport()
+        private async void PrintReport()
         {
-            // placeholder for printing
+            try
+            {
+                string reportName = (SelectedSoPhieu?.Name ?? "Unknown").Replace("/", "").Replace(":", "");
+                await ReportSaver.DownloadReportPdf(
+                    phieuId: SelectedSoPhieu?.Id ?? -1,
+                    reportPath: "/PhieuNhap",
+                    savePath: $"{DatabaseHelper.GetReportFolder()}//PhieuNhap_{reportName}.pdf");
+
+                var thongBao = new ThongBao("In phiếu thành công!");
+                thongBao.Show();
+            }
+            catch (Exception ex)
+            {
+                var thongBao = new ThongBao("Lỗi khi in phiếu: " + ex.Message);
+                thongBao.Show();
+            }
+
         }
         private void Tab()
         {

@@ -20,13 +20,16 @@ namespace Class
         private string SP_Name = "sp_PhieuThanhLy_Detail";
         private List<SqlParameter> para = new List<SqlParameter>();
 
-        public int Add(int phieu_id)
+        public int Add(int phieu_id, int KhoThanhLy_ID)
         {
             para.Clear();
             para.Add(new SqlParameter("@Action", "Add"));
             para.Add(new SqlParameter("@PhieuThanhLy_ID", phieu_id));
             para.Add(new SqlParameter("@LoThuoc_ID", LoThuoc_ID));
             para.Add(new SqlParameter("@LyDoThanhLy", LyDoThanhLy));
+
+            para.Add(new SqlParameter("@Kho_ID", KhoThanhLy_ID));
+            para.Add(new SqlParameter("@User_ID", DangNhap.User_ID));
 
             return DatabaseHelper.ExecuteNonQuery(
                 SP_Name,

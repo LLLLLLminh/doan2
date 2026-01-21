@@ -21,7 +21,7 @@ namespace Class
         private string SP_Name = "sp_PhieuNhap_Detail";
         private List<SqlParameter> para = new List<SqlParameter>();
 
-        public int Add(int phieu_id)
+        public int Add(int phieu_id, int KhoXuat, int KhoNhap)
         {
             para.Clear();
             para.Add(new SqlParameter("@Action", "Add"));
@@ -30,13 +30,17 @@ namespace Class
             para.Add(new SqlParameter("@DonGia", DonGia));
             para.Add(new SqlParameter("@SoLuong", SoLuong));
 
+            para.Add(new SqlParameter("@KhoXuat_ID", KhoXuat));
+            para.Add(new SqlParameter("@Kho_ID", KhoNhap));
+            para.Add(new SqlParameter("@User_ID", DangNhap.User_ID));
+
             return DatabaseHelper.ExecuteNonQuery(
                 SP_Name,
                 CommandType.StoredProcedure,
                 para.ToArray()
             );
         }
-        public int Update(int ID)
+        public int Update(int ID, int KhoXuat, int KhoNhap)
         {
             para.Clear();
             para.Add(new SqlParameter("@Action", "Delete"));
@@ -45,27 +49,37 @@ namespace Class
             para.Add(new SqlParameter("@DonGia", DonGia));
             para.Add(new SqlParameter("@SoLuong", SoLuong));
 
-
+            para.Add(new SqlParameter("@KhoXuat_ID", KhoXuat));
+            para.Add(new SqlParameter("@Kho_ID", KhoNhap));
+            para.Add(new SqlParameter("@User_ID", DangNhap.User_ID));
             return DatabaseHelper.ExecuteNonQuery(
                 SP_Name,
                 CommandType.StoredProcedure,
                 para.ToArray()
             );
         }
-        public int Delete(int ID)
+        public int Delete(int ID, int KhoXuat, int KhoNhap)
         {
             para.Add(new SqlParameter("@Action", "Delete"));
             para.Add(new SqlParameter("@ID", ID));
+
+            para.Add(new SqlParameter("@KhoXuat_ID", KhoXuat));
+            para.Add(new SqlParameter("@Kho_ID", KhoNhap));
+            para.Add(new SqlParameter("@User_ID", DangNhap.User_ID));
             return DatabaseHelper.ExecuteNonQuery(
                 SP_Name,
                 CommandType.StoredProcedure,
                 para.ToArray()
             );
         }
-        public int DeleteByPhieu_ID(int phieu_id)
+        public int DeleteByPhieu_ID(int phieu_id, int KhoXuat, int KhoNhap)
         {
             para.Add(new SqlParameter("@Action", "DeleteByPhieu_ID"));
             para.Add(new SqlParameter("@PhieuNhap_ID", phieu_id));
+
+            para.Add(new SqlParameter("@KhoXuat_ID", KhoXuat));
+            para.Add(new SqlParameter("@Kho_ID", KhoNhap));
+            para.Add(new SqlParameter("@User_ID", DangNhap.User_ID));
             return DatabaseHelper.ExecuteNonQuery(
                 SP_Name,
                 CommandType.StoredProcedure,

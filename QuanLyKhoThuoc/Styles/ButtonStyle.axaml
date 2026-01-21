@@ -10,7 +10,11 @@
                 <Button Classes="transparent" Content="S"></Button>
                 <TextBox Watermark="text box"></TextBox>
                 <CheckBox></CheckBox>
+                <RadioButton IsEnabled="False" Content="aaaa"></RadioButton>
                 <RadioButton></RadioButton>
+                <ComboBox SelectedIndex="0" IsEnabled="False">
+					<ComboBoxItem>Item 1</ComboBoxItem>
+                </ComboBox>
             </StackPanel>
         </TabItem>
       </TabControl>

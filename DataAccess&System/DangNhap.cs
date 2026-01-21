@@ -27,6 +27,7 @@ namespace Class
                 return false;
             DataRow row = dt.Rows[0];
             User_ID = (int)row["User_Id"];
+            IsAdmin = (bool)row["IsAdmin"];
             byte[] salt = (byte[])row["PasswordSalt"];
             byte[] hash = (byte[])row["PasswordHash"];
             byte[] hashCheck = HashPassword(password, salt);

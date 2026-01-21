@@ -10,13 +10,17 @@ namespace DataAccess_System
     {
         public int Id { get; set; }
         public string? Name { get; set; }
+        public int AdditionalValue { get; set; }
+        public string? AdditionalString { get; set; }
         public override string ToString() => Name;
 
         public ComboItem() { }
-        public ComboItem(int id, string? name)
+        public ComboItem(int id, string? name, int additionalValue = 0, string? additionalString = null)
         {
             Id = id;
             Name = name;
+            AdditionalValue = additionalValue;
+            AdditionalString = additionalString;
         }
     }
 }

@@ -9,19 +9,21 @@ namespace DataAccess_System
     public static class DatabaseHelper
     {
         private static string? connectionString;
+        private static string? reportFolder;
 
         static DatabaseHelper()
         {
-            connectionString = GetConnectionString();
+            GetConnectionString();
         }
-        public static string? GetConnectionString()
+        public static void GetConnectionString()
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            return config.GetConnectionString("conn");
+            connectionString = config.GetConnectionString("conn");
+            reportFolder = config.GetConnectionString("reportFolder");
         }
         public static void UpdateConnectionString(string? newConnectionString)
         {
@@ -136,6 +138,6 @@ namespace DataAccess_System
                 return false;
             }
         }
+        public static string? GetReportFolder() { return reportFolder; }
     }
-
 }

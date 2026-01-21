@@ -82,6 +82,16 @@ namespace Class
                 para.ToArray()
             );
         }
+        public virtual int Confirm(int phieu_id)
+        {
+            para.Add(new SqlParameter("@Action", "Confirm"));
+            para.Add(new SqlParameter("@Phieu_ID", phieu_id));
+            return DatabaseHelper.ExecuteNonQuery(
+                SP_Name,
+                CommandType.StoredProcedure,
+                para.ToArray()
+            );
+        }
         public abstract bool GetByPhieu_ID(int phieu_id);
         public virtual void ExtractDataRow(DataRow dr)
         {

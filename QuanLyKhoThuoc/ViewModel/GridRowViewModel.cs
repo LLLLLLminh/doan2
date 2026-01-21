@@ -11,21 +11,52 @@ namespace Windows.ViewModel
         public ComboItem? LoThuocDaChon
         {
             get => _loThuocDaChon;
-            set { _loThuocDaChon = value; OnPropertyChanged(); }
+            set { _loThuocDaChon = value; _soLuongMax = _loThuocDaChon?.AdditionalValue ?? 0; TenThuoc = _loThuocDaChon?.AdditionalString; OnPropertyChanged(); }
+        }
+
+        private string? _tenThuoc;
+        public string? TenThuoc
+        {
+            get => _tenThuoc;
+            set { _tenThuoc = value; OnPropertyChanged(); }
         }
 
         private decimal _donGia;
         public decimal DonGia
         {
             get => _donGia;
-            set { _donGia = value; OnPropertyChanged(); }
+            set
+            {
+                decimal newVal = value > 0 ? value : 0;
+                if (_donGia != newVal)
+                {
+                    _donGia = newVal;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private int _soLuong;
         public int SoLuong
         {
             get => _soLuong;
-            set { _soLuong = value; OnPropertyChanged(); }
+            set
+            {
+                int newVal = value > 0 ? value : 0;
+                newVal = value < _soLuongMax ? newVal : _soLuongMax;
+                if (_soLuong != newVal)
+                {
+                    _soLuong = newVal;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private int _soLuongMax;
+        public int SoLuongMax
+        {
+            get => _soLuongMax;
+            set { _soLuongMax = value; OnPropertyChanged(); }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -38,21 +69,52 @@ namespace Windows.ViewModel
         public ComboItem? LoThuocDaChon
         {
             get => _loThuocDaChon;
-            set { _loThuocDaChon = value; OnPropertyChanged(); }
+            set { _loThuocDaChon = value; _soLuongMax = _loThuocDaChon?.AdditionalValue ?? 0; TenThuoc = _loThuocDaChon?.AdditionalString; OnPropertyChanged(); }
+        }
+
+        private string? _tenThuoc;
+        public string? TenThuoc
+        {
+            get => _tenThuoc;
+            set { _tenThuoc = value; OnPropertyChanged(); }
         }
 
         private decimal _donGia;
         public decimal DonGia
         {
             get => _donGia;
-            set { _donGia = value; OnPropertyChanged(); }
+            set
+            {
+                decimal newVal = value > 0 ? value : 0;
+                if (_donGia != newVal)
+                {
+                    _donGia = newVal;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private int _soLuong;
         public int SoLuong
         {
             get => _soLuong;
-            set { _soLuong = value; OnPropertyChanged(); }
+            set
+            {
+                int newVal = value > 0 ? value : 0;
+                newVal = value < _soLuongMax ? newVal : _soLuongMax;
+                if (_soLuong != newVal)
+                {
+                    _soLuong = newVal;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private int _soLuongMax;
+        public int SoLuongMax
+        {
+            get => _soLuongMax;
+            set { _soLuongMax = value; OnPropertyChanged(); }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -65,7 +127,14 @@ namespace Windows.ViewModel
         public ComboItem? LoThuocDaChon
         {
             get => _loThuocDaChon;
-            set { _loThuocDaChon = value; OnPropertyChanged(); }
+            set { _loThuocDaChon = value; _soLuongMax = _loThuocDaChon?.AdditionalValue ?? 0; TenThuoc = _loThuocDaChon?.AdditionalString; OnPropertyChanged(); }
+        }
+
+        private string? _tenThuoc;
+        public string? TenThuoc
+        {
+            get => _tenThuoc;
+            set { _tenThuoc = value; OnPropertyChanged(); }
         }
 
         private string? _lyDoThanhLy;
@@ -73,6 +142,13 @@ namespace Windows.ViewModel
         {
             get => _lyDoThanhLy;
             set { _lyDoThanhLy = value; OnPropertyChanged(); }
+        }
+
+        private int _soLuongMax;
+        public int SoLuongMax
+        {
+            get => _soLuongMax;
+            set { _soLuongMax = value; OnPropertyChanged(); }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -106,14 +182,30 @@ namespace Windows.ViewModel
         public decimal DonGia
         {
             get => _donGia;
-            set { _donGia = value; OnPropertyChanged(); }
+            set
+            {
+                decimal newVal = value > 0 ? value : 0;
+                if (_donGia != newVal)
+                {
+                    _donGia = newVal;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private int _soLuong;
         public int SoLuong
         {
             get => _soLuong;
-            set { _soLuong = value; OnPropertyChanged(); }
+            set
+            {
+                int newVal = value > 0 ? value : 0;
+                if (_soLuong != newVal)
+                {
+                    _soLuong = newVal;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private decimal _soTienPhatSinh;
@@ -140,7 +232,19 @@ namespace Windows.ViewModel
         public ComboItem? ThuocDaChon { get => _thuocDaChon; set { _thuocDaChon = value; OnPropertyChanged(); } }
 
         private int _soLuong;
-        public int SoLuong { get => _soLuong; set { _soLuong = value; OnPropertyChanged(); } }
+        public int SoLuong 
+        { 
+            get => _soLuong;
+            set
+            {
+                int newVal = value > 0 ? value : 0;
+                if (_soLuong != newVal)
+                {
+                    _soLuong = newVal;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? n = null) =>
@@ -151,6 +255,9 @@ namespace Windows.ViewModel
         private ComboItem? _loThuocDaChon;
         public ComboItem? LoThuocDaChon { get => _loThuocDaChon; set { _loThuocDaChon = value; OnPropertyChanged(); } }
 
+        private ComboItem? _thuocDaChon;
+        public ComboItem? ThuocDaChon { get => _thuocDaChon; set { _thuocDaChon = value; OnPropertyChanged(); } }
+
         private DateTime? _hanDung;
         public DateTime? HanDung { get => _hanDung; set { _hanDung = value; OnPropertyChanged(); } }
 
@@ -158,7 +265,19 @@ namespace Windows.ViewModel
         public int SoLuongTruoc { get => _soLuongTruoc; set { _soLuongTruoc = value; OnPropertyChanged(); } }
 
         private int _soLuongThucTe;
-        public int SoLuongThucTe { get => _soLuongThucTe; set { _soLuongThucTe = value; OnPropertyChanged(); } }
+        public int SoLuongThucTe
+        {
+            get => _soLuongThucTe;
+            set
+            {
+                int newVal = value > 0 ? value : 0;
+                if (_soLuongThucTe != newVal)
+                {
+                    _soLuongThucTe = newVal;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? n = null) =>

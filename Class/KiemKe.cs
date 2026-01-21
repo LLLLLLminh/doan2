@@ -44,6 +44,18 @@ namespace Class
             return true;
         }
 
+        public DataTable GetByKho_ID(int kho_id)
+        {
+            var p1 = new SqlParameter("@Action", "GetByKho_ID");
+            var p3 = new SqlParameter("@Kho_ID", kho_id);
+            DataTable dt = DatabaseHelper.ExecuteDataTable(
+                SP_Name,
+                CommandType.StoredProcedure,
+                p1, p3
+            );
+            return dt;
+        }
+
         public override void ExtractDataRow(DataRow dr)
         {
             if (dr == null) return;
